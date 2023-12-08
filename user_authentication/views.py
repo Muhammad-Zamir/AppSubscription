@@ -1,7 +1,5 @@
 from rest_framework import viewsets
 from utils.base_authentication import JWTAuthentication
-from user_authentication.serializers import LoginSerializer, ChangePasswordSerializer, \
-    ForgetPasswordSerializer, VerifyOtpSerializer, UserProfileSerializer
 from user_authentication.user_controller import *
 from rest_framework.permissions import AllowAny
 from user_authentication.permission import IsSuperAdmin, IsAdmin
@@ -14,7 +12,6 @@ change_password_controller = ChangePasswordController()
 verify_otp = VerifyOtpController()
 user_controller = UserListingController()
 logout_controller = LogoutController()
-# organization_controller = OrganizationController()
 user_profile_controller = UserProfileController()
 
 class UserRegAPI(viewsets.ModelViewSet):
@@ -85,11 +82,7 @@ class UserListingView(viewsets.ModelViewSet):
 
     def destroy(self, request):
         return user_controller.delete_user(request)
-# class DeviceTokenView(viewsets.ModelViewSet):
-#     authentication_classes = (JWTAuthentication,)
-#
-#     def create(self,request):
-#         return device_token_controller.create(request)
+
 
 class LogoutView(viewsets.ModelViewSet):
     authentication_classes = (JWTAuthentication,)

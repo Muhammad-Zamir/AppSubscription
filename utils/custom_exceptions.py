@@ -37,37 +37,4 @@ class SessionExpired(APIException):
     default_detail = {'data': {}, 'message': 'Session Expired'}
     default_code = 'not_authenticated'
 
-# def custom_exception_handler(exc, context):
-#     """Call REST framework's default exception handler to set a standard error response on error."""
-#     # logger.info("inside of custom exception handler.")
-#
-#     response = exception_handler(exc, context)
-#     logger.error(f" {colored('context', 'yellow')}: {context}")
-#     logger.error(f" {colored('exception', 'yellow')}: {exc}")
-#     logger.error(f" {colored('response', 'yellow')}: {response}")
-#
-#     # The exception handler function should either return a Response object,or None
-#     # If the handler returns None then the exception will be re-raised and
-#     # Django will return a standard HTTP 500 'server error' response.
-#     # so override the response None and return standard response with HTTP_400_BAD_REQUEST
-#     if response is None:
-#         return Response(
-#             data={
-#                 "data": {},
-#                 "meta": {
-#                     "status_code": status.HTTP_400_BAD_REQUEST,
-#                     "message": "Something went wrong during process.Try again later.",
-#                 }
-#             },
-#             status=status.HTTP_400_BAD_REQUEST,
-#         )
-#     return Response(
-#         data={
-#             "data": {},
-#             "meta": {
-#                 "status_code": status.HTTP_400_BAD_REQUEST,
-#                 "message": f"{exc}",
-#             }
-#         },
-#         status=response.status_code
-#     )
+

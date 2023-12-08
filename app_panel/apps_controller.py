@@ -6,13 +6,11 @@ from utils.base_authentication import *
 from app_panel.serializers import *
 import ast
 from django.utils import timezone
-from utils.export_columns import *
-from utils.export_utils import ExportUtility
+
 
 class AppController:
     feature_name = "App Store"
     serializer_class = AppsSerializer
-    export_util = ExportUtility()
 
     def get_app(self, request):
 
@@ -152,11 +150,7 @@ class SubscriptionController:
             order_by
         )
         count = data.count()
-        if export:
-            serialized_data = self.serializer_class(data, many=True)
-            return self.export_util.export_notification_data(serialized_asset=serialized_data,
-                                                             columns=NOTIFICATION_EXPORT_COLUMNS,
-                                                             export_name="Notification Listing")
+
         data = paginate_data(data, request)
         serialized_data = self.serializer_class(data, many=True).data
         response_data = {"count": count, "data": serialized_data}
@@ -241,7 +235,6 @@ class SubscriptionController:
 class PlanController:
     feature_name = "Plan List"
     serializer_class = planSerializer
-    export_util = ExportUtility()
 
     def get_plan(self, request):
         kwargs = {}
