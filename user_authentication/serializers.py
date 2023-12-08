@@ -5,7 +5,7 @@ from django.db.models import Q, Count
 from rest_framework import serializers
 
 
-from user_authentication.models import Role, Token
+from user_authentication.models import Token
 
 
 
@@ -26,7 +26,7 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, instance):
         if len(instance["password"]) < 8:
             raise serializers.ValidationError("Password must be at least 8 characters long.")
-        if User.objects.filter(email=instance["email"], is_active="INACTIVE", is_locked=True).exists():
+        if User.objects.filter(email=instance["email"], is_active="INACTIVE").exists():
             raise serializers.ValidationError("Your account has been deactivated.")
 
         return instance
@@ -132,48 +132,18 @@ class UserListingSerializer(serializers.ModelSerializer):
                         "otp_generated_at": {'write_only': True},
                         "failed_login_attempts": {'write_only': True}, "last_failed_time": {'write_only': True}}
 
-    def to_representation(self, instance):
-        data = super(UserListingSerializer, self).to_representation(instance)
-        if instance.is_superuser:
-            data["role"] = "is_superuser"
-        else:
-            data["role"] = RoleSerializer(instance.role).data if instance.role else []
-            # data["role"] = "is_superuser"
-        return data
-
-class RoleSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Role
-        fields = ["id", "name",  "is_active"]
-
-    def validate(self, instance):
-        name = instance.get("name", None)
-        if self.instance:
-            id = [self.instance.id]
-        else:
-            id = []
-        if name:
-            if Role.objects.filter(~Q(id__in=id), name__iexact=name, is_deleted=False).exists():
-                print(Role.objects.filter(~Q(id__in=id), name__iexact=name, is_deleted=False))
-                raise serializers.ValidationError("Role with same name already exists")
-        return instance
-class RoleBasicSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Role
-        fields = ["id", "name"]
 
 
-class DeviceTokenSerializerCustom(serializers.ModelSerializer):
-    class Meta:
-        model = Token
-        fields = ['device_token']
-
-
-class DeviceTokenSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Token
-        fields = '__all__'
+# class DeviceTokenSerializerCustom(serializers.ModelSerializer):
+#     class Meta:
+#         model = Token
+#         fields = ['device_token']
+#
+#
+# class DeviceTokenSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Token
+#         fields = '__all__'
 
 
 class UserSerializerFullName(serializers.ModelSerializer):

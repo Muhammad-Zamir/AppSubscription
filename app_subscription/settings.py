@@ -80,6 +80,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_authentication',
+    'notifications',
+    'app_panel',
 
      # third party apps
      'rest_framework',
@@ -155,15 +157,22 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = [
     "utils.base_authentication.AuthenticationBackend",
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.office365.com"
+EMAIL_HOST = "mail.joyn.com.pk"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "sales.notifications@lucky-cement.com"
-EMAIL_HOST_PASSWORD = "HarderPassword@986"
+EMAIL_HOST_USER = "no-reply@joyn.com.pk"
+EMAIL_HOST_PASSWORD = "@Reply123"
+
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.office365.com"
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "sales.notifications@lucky-cement.com"
+# EMAIL_HOST_PASSWORD = "HarderPassword@986"
 
 AUTH_USER_MODEL = "user_authentication.User"
 

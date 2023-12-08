@@ -25,9 +25,6 @@ class Organization(LogsMixin):
     address = models.CharField(max_length=500, blank=True, null=True)
     logo = models.ImageField(upload_to="Images/", blank=True, null=True)
 
-class Role(LogsMixin):
-    role_types = (("SA", "Super Admin"), ("A", "Admin"), ("U", "User"))
-    name = models.CharField(max_length=50, choices=role_types, default="User")
 
 class User(LogsMixin, AbstractUser):
     """Fully featured User model, email and password are required.
@@ -51,16 +48,6 @@ class User(LogsMixin, AbstractUser):
     REQUIRED_FIELDS = ["email", "password"]
     failed_login_attempts = models.IntegerField(default=0)
     last_failed_time = models.DateTimeField(null=True, blank=True)
-    is_locked = models.BooleanField(default=False)
-    image = models.ImageField(upload_to="Images/", blank=True, null=True)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, related_name="reporting_organization", blank=True)
-    role = models.ForeignKey(
-        Role,
-        on_delete=models.DO_NOTHING,
-        related_name="user_role",
-        null=True,
-        blank=True,
-    )
 
     def get_access_token(self):
         return generate_access_token(self)
@@ -100,7 +87,6 @@ class NotificationFeatures(LogsMixin):
                 condition=Q(is_deleted="f"),
             )
         ]
-
 class EmailTemplate(LogsMixin):
     name = models.CharField(max_length=500)
     subject = models.TextField(max_length=500)

@@ -12,11 +12,9 @@ login_controller = LoginController()
 forget_password_controller = ForgetPasswordController()
 change_password_controller = ChangePasswordController()
 verify_otp = VerifyOtpController()
-role_controller = RoleController()
 user_controller = UserListingController()
-device_token_controller = DeviceTokenController()
 logout_controller = LogoutController()
-organization_controller = OrganizationController()
+# organization_controller = OrganizationController()
 user_profile_controller = UserProfileController()
 
 class UserRegAPI(viewsets.ModelViewSet):
@@ -68,26 +66,6 @@ class VerifyOtpAPI(viewsets.ModelViewSet):
     def post(self, request):
         return verify_otp.verify(request)
 
-class RoleListingView(viewsets.ModelViewSet):
-    """
-    Endpoints for role CRUDs.
-    """
-    authentication_classes = (JWTAuthentication,)
-    serializer_class = RoleSerializer
-    permission_classes = [IsSuperAdmin]
-
-    def get(self, request):
-        return role_controller.get_role(request)
-
-    def create(self, request):
-        return role_controller.create_role(request)
-
-    def update(self, request):
-        return role_controller.update_role(request)
-
-    def destroy(self, request):
-        return role_controller.delete_role(request)
-
 class UserListingView(viewsets.ModelViewSet):
     """
     Endpoints for users CRUDs.
@@ -107,47 +85,17 @@ class UserListingView(viewsets.ModelViewSet):
 
     def destroy(self, request):
         return user_controller.delete_user(request)
-class DeviceTokenView(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-
-    def create(self,request):
-        return device_token_controller.create(request)
+# class DeviceTokenView(viewsets.ModelViewSet):
+#     authentication_classes = (JWTAuthentication,)
+#
+#     def create(self,request):
+#         return device_token_controller.create(request)
 
 class LogoutView(viewsets.ModelViewSet):
     authentication_classes = (JWTAuthentication,)
 
     def logout(self, request):
         return logout_controller.logout(request)
-
-class OrganizationListingView(viewsets.ModelViewSet):
-    """
-    Endpoints for department CRUDs.
-    """
-
-    authentication_classes = (JWTAuthentication,)
-    serializer_class = OrganizationSerializer
-    permission_classes = [IsSuperAdmin]
-
-
-    def create(self, request):
-        return organization_controller.create_organization(request)
-
-    def destroy(self, request):
-        return organization_controller.delete_organization(request)
-class GetOrganizationListingView(viewsets.ModelViewSet):
-    """
-    Endpoints for department CRUDs.
-    """
-
-    authentication_classes = (JWTAuthentication,)
-    serializer_class = OrganizationSerializer
-    permission_classes = [IsAdmin]
-
-    def get(self, request):
-        return organization_controller.get_organization(request)
-
-    def update(self, request):
-        return organization_controller.update_organization(request)
 
 
 class UserProfileView(viewsets.ModelViewSet):
