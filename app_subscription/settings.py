@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import sys
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -120,6 +120,9 @@ WSGI_APPLICATION = 'app_subscription.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# settings.py
+
+
 
 DATABASES = {
     'default': {
@@ -129,9 +132,13 @@ DATABASES = {
         "PASSWORD": DATABASE_PASSWORD,
         "HOST": DATABASE_HOST,
         "PORT": DATABASE_PORT,
+        'TEST': {
+                    'NAME': DATABASE_USERNAME,
+                },
     }
 }
-
+if 'test' in sys.argv:
+    DATABASES['default']['USER'] = DATABASE_USERNAME
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

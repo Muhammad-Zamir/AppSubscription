@@ -3,13 +3,11 @@ from utils.base_authentication import *
 from notifications.serializers import *
 import ast
 from django.utils import timezone
-from utils.export_columns import *
-from utils.export_utils import ExportUtility
+
 
 class EmailTemplateController:
     feature_name = "Email Templates"
     serializer_class = EmailTemplateSerializer
-    export_util = ExportUtility()
 
     def get_email_templete(self, request):
         kwargs = {}
@@ -31,11 +29,6 @@ class EmailTemplateController:
             order_by
         )
         count = data.count()
-        # if export:
-        #     serialized_data = self.serializer_class(data, many=True)
-        #     return self.export_util.export_notification_data(serialized_asset=serialized_data,
-        #                                                    columns=NOTIFICATION_EXPORT_COLUMNS,
-        #                                                    export_name="Notification Listing")
         data = paginate_data(data, request)
         serialized_data = self.serializer_class(data, many=True).data
         response_data = {"count": count, "data": serialized_data}
@@ -117,7 +110,6 @@ class EmailTemplateController:
 class NotificationFeaturesController:
     feature_name = "Notification Features"
     serializer_class = NotificationFeaturesSerializer
-    export_util = ExportUtility()
 
     def get_notification_features(self, request):
         kwargs = {}
@@ -141,11 +133,7 @@ class NotificationFeaturesController:
             order_by
         )
         count = data.count()
-        if export:
-            serialized_data = self.serializer_class(data, many=True)
-            return self.export_util.export_notification_data(serialized_asset=serialized_data,
-                                                           columns=NOTIFICATION_EXPORT_COLUMNS,
-                                                           export_name="Notification Listing")
+
         data = paginate_data(data, request)
         serialized_data = self.serializer_class(data, many=True).data
         response_data = {"count": count, "data": serialized_data}

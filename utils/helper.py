@@ -1,5 +1,7 @@
 from django.core.mail import send_mail
 import boto3
+
+from utils.custom_pagination import CustomPagination
 from utils.response_messages import *
 from utils.reusable_methods import *
 from rest_framework.pagination import LimitOffsetPagination
@@ -95,6 +97,16 @@ def paginate_data(data, request):
         return data
     else:
         return data
+
+def paginate_baseapi_data(data, request):
+    limit = get_query_param(request, 'limit', None)
+    offset = get_query_param(request, 'offset', None)
+    if limit and offset:
+        pagination = CustomPagination()
+        data, count = pagination.paginate_queryset(data, request)
+        return data, count
+    else:
+        return data, data.count()
 
 
 def check_for_children(instance, data, request):

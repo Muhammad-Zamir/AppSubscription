@@ -3,8 +3,10 @@ boto3==1.33.9
 botocore==1.33.9
 cffi==1.16.0
 cryptography==41.0.7
+databases==0.8.0
 Django==5.0
 djangorestframework==3.14.0
+greenlet==3.0.2
 jmespath==1.0.1
 Pillow==10.1.0
 psycopg2-binary==2.9.9
@@ -15,6 +17,7 @@ python-dotenv==1.0.0
 pytz==2023.3.post1
 s3transfer==0.8.2
 six==1.16.0
+SQLAlchemy==1.4.50
 sqlparse==0.4.4
 typing_extensions==4.8.0
 urllib3==2.0.7
